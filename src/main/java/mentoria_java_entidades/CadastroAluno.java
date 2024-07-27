@@ -1,4 +1,4 @@
-package Mentoria_Java.Test;
+package mentoria_java_entidades;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -8,10 +8,15 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class CrudEscolaTesteJava {
+import mentoria_java_servicos.AlunoService;
+
+public class CadastroAluno {
 
 	static Scanner scanner = new Scanner(System.in);
 	static AlunoService alunoService = new AlunoService();
+
+	// Criando variavel para teste Unitarios
+	static String nomeAlunoTeste;
 
 	public static void main(String[] args) {
 
@@ -56,12 +61,12 @@ public class CrudEscolaTesteJava {
 
 	public static void cadastro() {
 
-		String nomeAluno;
+		String nomeAluno = "";
 		LocalDate dataNascimento;
 
 		while (true) {
 			// Cadastrar o Nome do Aluno Novo;
-			nomeAluno = cadastrarNomeAluno();
+			nomeAluno = cadastrarNomeAluno(nomeAlunoTeste);
 			// Cadastrar a Data de Nascimento do Aluno Novo;
 			dataNascimento = cadastrarDataNascimento();
 
@@ -93,10 +98,13 @@ public class CrudEscolaTesteJava {
 		System.out.println("Aluno cadastrado com Sucesso.\n");
 	}
 
-	private static String cadastrarNomeAluno() {
+	public static String cadastrarNomeAluno(String nomeAluno) {
 		while (true) {
-			System.out.println("Digite o nome do Aluno: ");
-			String nomeAluno = scanner.nextLine();
+			//System.out.println("Digite o nome do Aluno: ");
+
+			// String nomeAluno = scanner.nextLine();
+
+			//nomeAluno = scanner.nextLine();
 
 			try {
 				if (nomeAluno.matches("[A-Za-zÀ-ú ]+")) {
@@ -174,21 +182,23 @@ public class CrudEscolaTesteJava {
 	}
 
 	private static String cadastrarTurma() {
-		while (true) {
-			System.out.print("Digite a turma do aluno: ");
-			String turma = scanner.nextLine();
+	    while (true) {
+	        System.out.print("Digite a turma do aluno (apenas uma letra): ");
+	        String turma = scanner.nextLine();
 
-			try {
-				if (turma.matches("[A-Za-zÀ-ú ]+")) {
-					return turma;
-				} else {
-					throw new TurmaInvalidaException(
-							"Turma inválida. Por favor, digite uma turma que contenha apenas letras.");
-				}
-			} catch (TurmaInvalidaException e) {
-				System.out.println(e.getMessage());
-			}
-		}
+	        try {
+	            if (turma.matches("[A-Za-zÀ-ú]") && turma.length() == 1) {
+	                // Transformar a letra em maiúscula
+	                turma = turma.toUpperCase();
+	                return turma;
+	            } else {
+	                throw new TurmaInvalidaException(
+	                    "Turma inválida. Por favor, digite apenas uma letra.");
+	            }
+	        } catch (TurmaInvalidaException e) {
+	            System.out.println(e.getMessage());
+	        }
+	    }
 	}
 
 	public static void consulta() {
@@ -292,12 +302,12 @@ public class CrudEscolaTesteJava {
 
 			switch (opcao) {
 			case 1:
-				nomeAluno = cadastrarNomeAluno();
-				mensagemAlteracao = "Nome do aluno alterado com sucesso.";
+				nomeAluno = cadastrarNomeAluno(nomeAlunoTeste);
+				mensagemAlteracao = "\nNome do aluno alterado com sucesso.\n";
 				break;
 			case 2:
 				dataNascimento = cadastrarDataNascimento();
-				mensagemAlteracao = "Data de nascimento alterada com sucesso.";
+				mensagemAlteracao = "\nData de nascimento alterada com sucesso.\n";
 				break;
 			case 3:
 				nota1 = cadastrarNota("\nDigite a nova nota 1 (entre 0 e 10): ");
@@ -309,17 +319,17 @@ public class CrudEscolaTesteJava {
 				break;
 			case 5:
 				classe = cadastrarClasse();
-				mensagemAlteracao = "Classe alterada com sucesso.";
+				mensagemAlteracao = "\nClasse alterada com sucesso.\n";
 				break;
 			case 6:
 				turma = cadastrarTurma();
-				mensagemAlteracao = "Turma alterada com sucesso.";
+				mensagemAlteracao = "\nTurma alterada com sucesso.\n";
 				break;
 			case 0:
 				System.out.println("\nSaindo do menu de alterações \n");
 				return;
 			default:
-				System.out.println("Opção inválida. Por favor, tente novamente.");
+				System.out.println("\nOpção inválida. Por favor, tente novamente.");
 				continue;
 			}
 
@@ -368,5 +378,4 @@ public class CrudEscolaTesteJava {
 			System.out.println("\nAluno não encontrado.\n");
 		}
 	}
-
 }

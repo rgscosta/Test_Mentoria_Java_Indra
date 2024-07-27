@@ -1,4 +1,4 @@
-package Mentoria_Java.Test;
+package mentoria_java_servicos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import mentoria_java_entidades.Aluno;
 
 public class AlunoService {
 	// Lista de Alunos.

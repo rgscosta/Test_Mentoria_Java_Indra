@@ -1,4 +1,4 @@
-package Mentoria_Java.Test;
+package mentoria_java_entidades;
 
 import java.time.LocalDate;
 
