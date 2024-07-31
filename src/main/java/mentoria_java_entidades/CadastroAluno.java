@@ -17,6 +17,16 @@ public class CadastroAluno {
 
 	// Criando variavel para teste Unitarios
 	static String nomeAlunoTeste;
+	static String dataNascimentoStr;
+	static double notaDigitadaAluno;
+	static String pergunta;
+	static String classeAluno;
+	static String turmaAluno;
+	static double d;
+	static double e;
+	static double mediaAluno;
+	static String situacao;
+	static double media;
 
 	public static void main(String[] args) {
 
@@ -68,7 +78,7 @@ public class CadastroAluno {
 			// Cadastrar o Nome do Aluno Novo;
 			nomeAluno = cadastrarNomeAluno(nomeAlunoTeste);
 			// Cadastrar a Data de Nascimento do Aluno Novo;
-			dataNascimento = cadastrarDataNascimento();
+			dataNascimento = cadastrarDataNascimento(dataNascimentoStr);
 
 			// Verificar duplicidade de aluno com base no nome e data de nascimento
 			if (alunoService.verificarAlunoCadastrado(nomeAluno, dataNascimento)) {
@@ -79,18 +89,19 @@ public class CadastroAluno {
 		}
 
 		// Cadastrar as Notas
-		double nota1 = cadastrarNota("Digite a nota 1 (entre 0 e 10): ");
-		double nota2 = cadastrarNota("Digite a nota 2 (entre 0 e 10): ");
+		double nota1 = cadastrarNota("Digite a nota 1 (entre 0 e 10): ", notaDigitadaAluno);
+		double nota2 = cadastrarNota("Digite a nota 2 (entre 0 e 10): ", notaDigitadaAluno);
 		// Cadastrar a Classe
-		Integer classe = cadastrarClasse();
+		Integer classe = cadastrarClasse(classeAluno);
 		// Cadastrar a Turma
-		String turma = cadastrarTurma();
+		String turma = cadastrarTurma(turmaAluno);
 		// Construtor com recebendo os dados
 		Aluno aluno = new Aluno(nomeAluno, dataNascimento, nota1, nota2, classe, turma);
 		// Calculando a Média
-		aluno.calcularMedia();
+		//aluno.calcularMedia();
+		aluno.calcularMedia(d, e);
 		// Informando a Situação
-		aluno.determinarSituacao();
+		aluno.determinarSituacao(situacao, media);
 		// Adicionando Aluno no cadastro
 		alunoService.cadastrarAluno(aluno);
 
@@ -99,7 +110,8 @@ public class CadastroAluno {
 	}
 
 	public static String cadastrarNomeAluno(String nomeAluno) {
-		while (true) {
+		boolean teste = true; 
+		while (teste) {
 			//System.out.println("Digite o nome do Aluno: ");
 
 			// String nomeAluno = scanner.nextLine();
@@ -110,22 +122,25 @@ public class CadastroAluno {
 				if (nomeAluno.matches("[A-Za-zÀ-ú ]+")) {
 					return nomeAluno;
 				} else {
+					teste = false; 
 					throw new NomeInvalidoException(
 							"\nNome inválido. Por favor, digite um nome que contenha apenas letras. \n");
+					 
 				}
 			} catch (NomeInvalidoException e) {
 				System.out.println(e.getMessage());
 			}
 		}
+		return nomeAluno;
 	}
 
-	private static LocalDate cadastrarDataNascimento() {
+	public static LocalDate cadastrarDataNascimento(String dataNascimentoStr) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		Pattern datePattern = Pattern.compile("\\d{2}/\\d{2}/\\d{4}");
 
 		while (true) {
-			System.out.print("Digite a data de nascimento (dd/MM/yyyy): ");
-			String dataNascimentoStr = scanner.nextLine();
+			//System.out.print("Digite a data de nascimento (dd/MM/yyyy): ");
+			//String dataNascimentoStr = scanner.nextLine();
 			if (datePattern.matcher(dataNascimentoStr).matches()) {
 				try {
 					LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
@@ -143,12 +158,13 @@ public class CadastroAluno {
 		}
 	}
 
-	private static double cadastrarNota(String pergunta) {
+	public static double cadastrarNota(String pergunta, double notaDigitadaAluno) {
 		while (true) {
-			System.out.print(pergunta);
-			String notaDigitada = scanner.nextLine();
+//			System.out.print(pergunta);
+//			String notaDigitada = scanner.nextLine();
 			try {
-				double nota = Double.parseDouble(notaDigitada);
+				//double nota = Double.parseDouble(notaDigitada);
+				double nota = notaDigitadaAluno;
 				if (nota >= 0 && nota <= 10) {
 					return nota;
 				} else {
@@ -160,16 +176,18 @@ public class CadastroAluno {
 		}
 	}
 
-	private static int cadastrarClasse() {
+	public static int cadastrarClasse(String classeAluno) {
 		while (true) {
-			System.out.print("Digite a classe do aluno (entre 1º ao 9º ano): ");
-			String entrada = scanner.nextLine();
+//			System.out.print("Digite a classe do aluno (entre 1º ao 9º ano): ");
+//			String entrada = scanner.nextLine();
 
 			try {
 				// Remover o símbolo de grau, se presente
-				String classeStr = entrada.replace("º", "").trim();
-				int classe = Integer.parseInt(classeStr);
-
+				//String classeStr = entrada.replace("º", "").trim();
+				classeAluno.replace("º", "").trim();
+				//int classe = Integer.parseInt(classeStr);
+				int classe = Integer.parseInt(classeAluno);
+				
 				if (classe >= 1 && classe <= 9) {
 					return classe;
 				} else {
@@ -181,10 +199,12 @@ public class CadastroAluno {
 		}
 	}
 
-	private static String cadastrarTurma() {
+	public static String cadastrarTurma(String turmaAluno) {
 	    while (true) {
-	        System.out.print("Digite a turma do aluno (apenas uma letra): ");
-	        String turma = scanner.nextLine();
+//	        System.out.print("Digite a turma do aluno (apenas uma letra): ");
+//	        String turma = scanner.nextLine();
+	    	
+	    	String turma = turmaAluno;
 
 	        try {
 	            if (turma.matches("[A-Za-zÀ-ú]") && turma.length() == 1) {
@@ -306,23 +326,23 @@ public class CadastroAluno {
 				mensagemAlteracao = "\nNome do aluno alterado com sucesso.\n";
 				break;
 			case 2:
-				dataNascimento = cadastrarDataNascimento();
+				dataNascimento = cadastrarDataNascimento(dataNascimentoStr);
 				mensagemAlteracao = "\nData de nascimento alterada com sucesso.\n";
 				break;
 			case 3:
-				nota1 = cadastrarNota("\nDigite a nova nota 1 (entre 0 e 10): ");
+				nota1 = cadastrarNota("\nDigite a nova nota 1 (entre 0 e 10): ", notaDigitadaAluno);
 				mensagemAlteracao = "Nota 1 alterada com sucesso.";
 				break;
 			case 4:
-				nota2 = cadastrarNota("\nDigite a nova nota 2 (entre 0 e 10): ");
+				nota2 = cadastrarNota("\nDigite a nova nota 2 (entre 0 e 10): ", notaDigitadaAluno);
 				mensagemAlteracao = "Nota 2 alterada com sucesso.";
 				break;
 			case 5:
-				classe = cadastrarClasse();
+				classe = cadastrarClasse(classeAluno);
 				mensagemAlteracao = "\nClasse alterada com sucesso.\n";
 				break;
 			case 6:
-				turma = cadastrarTurma();
+				turma = cadastrarTurma(turmaAluno);
 				mensagemAlteracao = "\nTurma alterada com sucesso.\n";
 				break;
 			case 0:
@@ -334,8 +354,8 @@ public class CadastroAluno {
 			}
 
 			Aluno alunoAlterado = new Aluno(nomeAluno, dataNascimento, nota1, nota2, classe, turma);
-			alunoAlterado.calcularMedia();
-			alunoAlterado.determinarSituacao();
+			alunoAlterado.calcularMedia(nota1, nota2);
+			alunoAlterado.determinarSituacao(situacao, media);
 			alunoAlterado.setMatricula(matricula);
 
 			if (alunoService.alterarAluno(alunoAlterado)) {

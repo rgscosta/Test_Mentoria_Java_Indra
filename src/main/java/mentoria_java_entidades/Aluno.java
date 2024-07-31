@@ -25,12 +25,13 @@ public class Aluno {
 		this.matricula = nextmatricula++;
 	}
 
-	public void calcularMedia() {
-		this.media = (nota1 + nota2) / 2.0;
+	public double calcularMedia(double d, double e) {
+		return this.media = (nota1 + nota2) / 2.0;
 	}
 
-	public void determinarSituacao() {
-		this.situacao = this.media >= 7 ? "Aprovado" : "Reprovado";
+	public String determinarSituacao(String situação, Double media) {
+		//return this.situacao = this.media >= 7 ? "Aprovado" : "Reprovado";
+		return this.situacao  =  media >= 7 ? "Aprovado" : "Reprovado";
 	}
 
 	public static int getNextmatricula() {

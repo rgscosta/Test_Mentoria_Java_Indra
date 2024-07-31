@@ -15,7 +15,7 @@ public class AlunoService {
 
 	// Contrutor do Aluno Service
 	public AlunoService() {
-		this.alunos = new ArrayList<>();
+		this.alunos = new ArrayList<Aluno>();
 	}
 
 	// Cadastrando o Aluno
@@ -25,7 +25,7 @@ public class AlunoService {
 
 	// Consultar todos alunos.
 	public List<Aluno> consultarAlunos() {
-		return new ArrayList<>(alunos);
+		return new ArrayList<Aluno>(alunos);
 	}
 
 	// Verificar se o aluno e cadastrado pela matricula.
@@ -40,7 +40,7 @@ public class AlunoService {
 
 	// Consultar o aluno por nome.
 	public List<Aluno> consultarAlunoPorNome(String nome) {
-		List<Aluno> alunosEncontrados = new ArrayList<>();
+		List<Aluno> alunosEncontrados = new ArrayList<Aluno>();
 		for (Aluno aluno : alunos) {
 			if (aluno.getNomeAluno().equalsIgnoreCase(nome)) {
 				alunosEncontrados.add(aluno);
