@@ -1,6 +1,7 @@
 package mentoria_java_entidades;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Aluno {
 
@@ -30,8 +31,8 @@ public class Aluno {
 	}
 
 	public String determinarSituacao(String situação, Double media) {
-		//return this.situacao = this.media >= 7 ? "Aprovado" : "Reprovado";
-		return this.situacao  =  media >= 7 ? "Aprovado" : "Reprovado";
+		// return this.situacao = this.media >= 7 ? "Aprovado" : "Reprovado";
+		return this.situacao = media >= 7 ? "Aprovado" : "Reprovado";
 	}
 
 	public static int getNextmatricula() {
@@ -114,12 +115,13 @@ public class Aluno {
 		this.media = media;
 	}
 
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	// Serve para imprimir o cadastro do aluno na tela
 	@Override
 	public String toString() {
-		return "\nMatrícula: " + matricula + "\n" + "Nome: " + nomeAluno + "\n" + "Classe: " + classe + "º Ano" + "\n"
-				+ "Turma: " + turma + "\n" + "Nota 1: " + nota1 + "\n" + "Nota 2: " + nota2 + "\n" + "Média: " + media
-				+ "\n" + "Situação: " + situacao + "\n";
+		return "\nMatrícula: " + matricula + "\n" + "Nome: " + nomeAluno + "\n" + "Data Nascimento: " + formatter.format(dataNascimento)
+				+ "\n" + "Classe: " + classe + "º Ano" + "\n" + "Turma: " + turma + "\n" + "Nota 1: " + nota1 + "\n"
+				+ "Nota 2: " + nota2 + "\n" + "Média: " + media + "\n" + "Situação: " + situacao + "\n";
 	}
 
 }

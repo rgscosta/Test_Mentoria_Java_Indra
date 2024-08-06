@@ -98,7 +98,7 @@ public class CadastroAluno {
 		// Construtor com recebendo os dados
 		Aluno aluno = new Aluno(nomeAluno, dataNascimento, nota1, nota2, classe, turma);
 		// Calculando a Média
-		//aluno.calcularMedia();
+		// aluno.calcularMedia();
 		aluno.calcularMedia(d, e);
 		// Informando a Situação
 		aluno.determinarSituacao(situacao, media);
@@ -110,22 +110,22 @@ public class CadastroAluno {
 	}
 
 	public static String cadastrarNomeAluno(String nomeAluno) {
-		boolean teste = true; 
+		boolean teste = true;
 		while (teste) {
-			//System.out.println("Digite o nome do Aluno: ");
+			// System.out.println("Digite o nome do Aluno: ");
 
 			// String nomeAluno = scanner.nextLine();
 
-			//nomeAluno = scanner.nextLine();
+			// nomeAluno = scanner.nextLine();
 
 			try {
 				if (nomeAluno.matches("[A-Za-zÀ-ú ]+")) {
 					return nomeAluno;
 				} else {
-					teste = false; 
+					teste = false;
 					throw new NomeInvalidoException(
 							"\nNome inválido. Por favor, digite um nome que contenha apenas letras. \n");
-					 
+
 				}
 			} catch (NomeInvalidoException e) {
 				System.out.println(e.getMessage());
@@ -139,8 +139,8 @@ public class CadastroAluno {
 		Pattern datePattern = Pattern.compile("\\d{2}/\\d{2}/\\d{4}");
 
 		while (true) {
-			//System.out.print("Digite a data de nascimento (dd/MM/yyyy): ");
-			//String dataNascimentoStr = scanner.nextLine();
+			// System.out.print("Digite a data de nascimento (dd/MM/yyyy): ");
+			// String dataNascimentoStr = scanner.nextLine();
 			if (datePattern.matcher(dataNascimentoStr).matches()) {
 				try {
 					LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
@@ -160,10 +160,10 @@ public class CadastroAluno {
 
 	public static double cadastrarNota(String pergunta, double notaDigitadaAluno) {
 		while (true) {
-//			System.out.print(pergunta);
-//			String notaDigitada = scanner.nextLine();
+			// System.out.print(pergunta);
+			// String notaDigitada = scanner.nextLine();
 			try {
-				//double nota = Double.parseDouble(notaDigitada);
+				// double nota = Double.parseDouble(notaDigitada);
 				double nota = notaDigitadaAluno;
 				if (nota >= 0 && nota <= 10) {
 					return nota;
@@ -178,16 +178,16 @@ public class CadastroAluno {
 
 	public static int cadastrarClasse(String classeAluno) {
 		while (true) {
-//			System.out.print("Digite a classe do aluno (entre 1º ao 9º ano): ");
-//			String entrada = scanner.nextLine();
+			// System.out.print("Digite a classe do aluno (entre 1º ao 9º ano): ");
+			// String entrada = scanner.nextLine();
 
 			try {
 				// Remover o símbolo de grau, se presente
-				//String classeStr = entrada.replace("º", "").trim();
+				// String classeStr = entrada.replace("º", "").trim();
 				classeAluno.replace("º", "").trim();
-				//int classe = Integer.parseInt(classeStr);
+				// int classe = Integer.parseInt(classeStr);
 				int classe = Integer.parseInt(classeAluno);
-				
+
 				if (classe >= 1 && classe <= 9) {
 					return classe;
 				} else {
@@ -200,25 +200,24 @@ public class CadastroAluno {
 	}
 
 	public static String cadastrarTurma(String turmaAluno) {
-	    while (true) {
-//	        System.out.print("Digite a turma do aluno (apenas uma letra): ");
-//	        String turma = scanner.nextLine();
-	    	
-	    	String turma = turmaAluno;
+		while (true) {
+			// System.out.print("Digite a turma do aluno (apenas uma letra): ");
+			// String turma = scanner.nextLine();
 
-	        try {
-	            if (turma.matches("[A-Za-zÀ-ú]") && turma.length() == 1) {
-	                // Transformar a letra em maiúscula
-	                turma = turma.toUpperCase();
-	                return turma;
-	            } else {
-	                throw new TurmaInvalidaException(
-	                    "Turma inválida. Por favor, digite apenas uma letra.");
-	            }
-	        } catch (TurmaInvalidaException e) {
-	            System.out.println(e.getMessage());
-	        }
-	    }
+			String turma = turmaAluno;
+
+			try {
+				if (turma.matches("[A-Za-zÀ-ú]") && turma.length() == 1) {
+					// Transformar a letra em maiúscula
+					turma = turma.toUpperCase();
+					return turma;
+				} else {
+					throw new TurmaInvalidaException("Turma inválida. Por favor, digite apenas uma letra.");
+				}
+			} catch (TurmaInvalidaException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 
 	public static void consulta() {

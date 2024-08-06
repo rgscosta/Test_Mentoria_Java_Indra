@@ -6,7 +6,6 @@ public class TurmaInvalidaException extends Exception {
 
 	public TurmaInvalidaException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 }

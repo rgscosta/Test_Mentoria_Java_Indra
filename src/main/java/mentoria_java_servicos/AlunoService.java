@@ -10,6 +10,7 @@ import java.util.List;
 import mentoria_java_entidades.Aluno;
 
 public class AlunoService {
+
 	// Lista de Alunos.
 	private List<Aluno> alunos;
 
@@ -64,9 +65,10 @@ public class AlunoService {
 	public boolean excluirAluno(int matricula) {
 		return alunos.removeIf(aluno -> aluno.getMatricula() == matricula);
 	}
-	
+
 	// Exporta os cadastro para um arquivo TXT
-	public void exportarAlunosParaArquivo(String caminhoArquivos, String caminhoDiretorio, String userHome, String pastaCadastro) {
+	public void exportarAlunosParaArquivo(String caminhoArquivos, String caminhoDiretorio, String userHome,
+			String pastaCadastro) {
 		// Criar a pasta se não existir
 		File pasta = new File(caminhoDiretorio);
 		if (!pasta.exists()) {
@@ -89,7 +91,8 @@ public class AlunoService {
 		}
 	}
 
-	// Validar se o aluno cadastrado não já existe na base com o mesmo nome e data de nascimento.
+	// Validar se o aluno cadastrado não já existe na base com o mesmo nome e data
+	// de nascimento.
 	public boolean verificarAlunoCadastrado(String nomeAluno, LocalDate dataNascimento) {
 		for (Aluno aluno : alunos) {
 			if (aluno.getNomeAluno().equals(nomeAluno) && aluno.getDataNascimento().equals(dataNascimento)) {
