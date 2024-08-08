@@ -15,6 +15,7 @@ public class Aluno {
 	double nota1;
 	double nota2;
 	double media;
+	DateTimeFormatter formatter;
 
 	public Aluno(String nomeAluno, LocalDate dataNascimento, Double nota1, Double nota2, Integer classe, String turma) {
 		this.nomeAluno = nomeAluno;
@@ -115,13 +116,12 @@ public class Aluno {
 		this.media = media;
 	}
 
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	// Serve para imprimir o cadastro do aluno na tela
 	@Override
 	public String toString() {
+		formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return "\nMatrícula: " + matricula + "\n" + "Nome: " + nomeAluno + "\n" + "Data Nascimento: " + formatter.format(dataNascimento)
 				+ "\n" + "Classe: " + classe + "º Ano" + "\n" + "Turma: " + turma + "\n" + "Nota 1: " + nota1 + "\n"
 				+ "Nota 2: " + nota2 + "\n" + "Média: " + media + "\n" + "Situação: " + situacao + "\n";
 	}
-
 }

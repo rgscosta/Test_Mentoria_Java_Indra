@@ -306,57 +306,87 @@ public class AlunoServiceTeste {
 
 	@Test
 	public void teste14_ExportarAlunosParaArquivo() throws IOException {
-	    // Cria alguns alunos e os cadastra
-	    aluno.setMatricula(1);
-	    alunoService.cadastrarAluno(aluno);
+		// Cria alguns alunos e os cadastra
+		aluno.setMatricula(1);
+		alunoService.cadastrarAluno(aluno);
 
-	    Aluno aluno1 = new Aluno("Maria", LocalDate.parse("15/03/1990", formatter), 9d, 7d, 7, "B");
-	    aluno1.setMatricula(2);
-	    alunoService.cadastrarAluno(aluno1);
+		Aluno aluno1 = new Aluno("Maria", LocalDate.parse("15/03/1990", formatter), 9d, 7d, 7, "B");
+		aluno1.setMatricula(2);
+		alunoService.cadastrarAluno(aluno1);
 
-	    // Define o caminho do diretório e do arquivo para exportação
-	    String tempDir = System.getProperty("java.io.tmpdir");
-	    String caminhoDiretorio = tempDir + File.separator + "CadastroAlunosTeste";
-	    String caminhoArquivo = caminhoDiretorio + File.separator + "alunos_cadastrados.txt";
+		// Define o caminho do diretório e do arquivo para exportação
+		String tempDir = System.getProperty("java.io.tmpdir");
+		String caminhoDiretorio = tempDir + File.separator + "CadastroAlunosTeste";
+		String caminhoArquivo = caminhoDiretorio + File.separator + "alunos_cadastrados.txt";
 
-	    // Exporta os alunos para o arquivo
-	    alunoService.exportarAlunosParaArquivo(null, caminhoDiretorio, null, null);
+		// Exporta os alunos para o arquivo
+		alunoService.exportarAlunosParaArquivo(null, caminhoDiretorio, null, null);
 
-	    // Verifica se o arquivo foi criado
-	    File arquivo = new File(caminhoArquivo);
-	    Assert.assertTrue("Arquivo não encontrado: " + caminhoArquivo, arquivo.exists());
+		// Verifica se o arquivo foi criado
+		File arquivo = new File(caminhoArquivo);
+		Assert.assertTrue("Arquivo não encontrado: " + caminhoArquivo, arquivo.exists());
 
-	    // Verifica o conteúdo do arquivo
-	    try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-	        String linha;
-	        boolean encontrouRodrigo = false;
-	        boolean encontrouMaria = false;
+		// Verifica o conteúdo do arquivo
+		try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+			String linha;
+			boolean encontrouRodrigo = false;
+			boolean encontrouMaria = false;
 
-	        while ((linha = reader.readLine()) != null) {
-	            if (linha.contains("Rodrigo")) {
-	                encontrouRodrigo = true;
-	                // Lê a próxima linha e verifica a data de nascimento
-	                String proximaLinha = reader.readLine();
-	                Assert.assertNotNull("Linha esperada não encontrada após 'Rodrigo'.", proximaLinha);
-	                Assert.assertTrue("A linha com 'Rodrigo' não contém a data correta.", proximaLinha.contains("08/02/1986"));
-	            }
-	            if (linha.contains("Maria")) {
-	                encontrouMaria = true;
-	                // Lê a próxima linha e verifica a data de nascimento
-	                String proximaLinha = reader.readLine();
-	                Assert.assertNotNull("Linha esperada não encontrada após 'Maria'.", proximaLinha);
-	                Assert.assertTrue("A linha com 'Maria' não contém a data correta.", proximaLinha.contains("15/03/1990"));
-	            }
-	        }
+			while ((linha = reader.readLine()) != null) {
+				if (linha.contains("Rodrigo")) {
+					encontrouRodrigo = true;
+					// Lê a próxima linha e verifica a data de nascimento
+					String proximaLinha = reader.readLine();
+					Assert.assertNotNull("Linha esperada não encontrada após 'Rodrigo'.", proximaLinha);
+					Assert.assertTrue("A linha com 'Rodrigo' não contém a data correta.",
+							proximaLinha.contains("08/02/1986"));
+				}
+				if (linha.contains("Maria")) {
+					encontrouMaria = true;
+					// Lê a próxima linha e verifica a data de nascimento
+					String proximaLinha = reader.readLine();
+					Assert.assertNotNull("Linha esperada não encontrada após 'Maria'.", proximaLinha);
+					Assert.assertTrue("A linha com 'Maria' não contém a data correta.",
+							proximaLinha.contains("15/03/1990"));
+				}
+			}
 
-	        Assert.assertTrue("Não encontrou a linha para 'Rodrigo'.", encontrouRodrigo);
-	        Assert.assertTrue("Não encontrou a linha para 'Maria'.", encontrouMaria);
-	    }
+			Assert.assertTrue("Não encontrou a linha para 'Rodrigo'.", encontrouRodrigo);
+			Assert.assertTrue("Não encontrou a linha para 'Maria'.", encontrouMaria);
+		}
 
-	    // Limpa o arquivo após o teste
-	    new File(caminhoArquivo).delete();
-	    new File(caminhoDiretorio).delete();
+		// Limpa o arquivo após o teste
+		new File(caminhoArquivo).delete();
+		new File(caminhoDiretorio).delete();
 	}
 
+	@Test
+	public void teste15_ExportarAlunosParaArquivo_FalhaAoCriarPasta() {
+		// Caminho inválido para forçar a falha na criação da pasta
+		String caminhoDiretorio = "Z:/CaminhoInvalido";
+		// Testa se o método trata corretamente a falha na criação da pasta
+		alunoService.exportarAlunosParaArquivo(null, caminhoDiretorio, null, null);
+
+	}
+
+	@Test
+	public void teste16_VerificarAlunoCadastrado_AlunoExistente() {
+		// Configura os dados do aluno
+		alunoService.cadastrarAluno(aluno);
+
+		// Verifica se o aluno existe
+		boolean resultado = alunoService.verificarAlunoCadastrado("Rodrigo", LocalDate.parse("1986-02-08"));
+		Assert.assertTrue("O aluno deveria estar cadastrado, mas não foi encontrado.", resultado);
+	}
+
+	@Test
+	public void teste17_VerificarAlunoCadastrado_AlunoNaoExistente() {
+		// Configura os dados de um aluno que não será cadastrado
+		LocalDate dataNascimentoNaoCadastrado = LocalDate.parse("1990-01-01");
+
+		// Verifica se o aluno não existe
+		boolean resultado = alunoService.verificarAlunoCadastrado("Maria", dataNascimentoNaoCadastrado);
+		Assert.assertFalse("O aluno não deveria estar cadastrado, mas foi encontrado.", resultado);
+	}
 
 }
